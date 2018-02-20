@@ -5,6 +5,7 @@ This script should do the following:
 
 Install homebrew
 Install oh my zsh
+Install correct version of emacs
 Copy over emacs settings
 Copy over zshell settings
 Copy over iTerm settings
