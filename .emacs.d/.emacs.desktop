@@ -1,0 +1,55 @@
+;; -*- mode: emacs-lisp; coding: emacs-mule; -*-
+;; --------------------------------------------------------------------------
+;; Desktop File for Emacs
+;; --------------------------------------------------------------------------
+;; Created Tue Apr 24 10:31:36 2018
+;; Desktop file format version 208
+;; Emacs version 25.3.1
+
+;; Global section:
+(setq desktop-saved-frameset [frameset 1 (23263 27128 245466 0) (desktop . "208") "anlanglu@Anlangs-MacBook-Pro.local" nil nil ((((tty-type . "xterm-256color") (tty . "/dev/tty") (display-type . color) (background-mode . light) (foreground-color . "unspecified-fg") (cursor-color . "black") (menu-bar-lines . 0) (background-color . "unspecified-bg") (font . "tty") (height . 60) (width . 238) (modeline . t) (unsplittable) (frameset--id . "2040-1189-B390-CA7B") (frameset--mini t) (minibuffer . t)) ((min-height . 8) (min-width . 20) (min-height-ignore . 4) (min-width-ignore . 12) (min-height-safe . 2) (min-width-safe . 4) (min-pixel-height . 8) (min-pixel-width . 20) (min-pixel-height-ignore . 4) (min-pixel-width-ignore . 12) (min-pixel-height-safe . 2) (min-pixel-width-safe . 4)) hc (pixel-width . 238) (pixel-height . 59) (total-width . 238) (total-height . 59) (normal-height . 1.0) (normal-width . 1.0) (combination-limit) (leaf (pixel-width . 137) (pixel-height . 59) (total-width . 137) (total-height . 59) (normal-height . 1.0) (normal-width . 0.5756302521008401) (buffer "tests.rush" (selected) (hscroll . 0) (fringes 0 0 nil) (margins 4) (scroll-bars nil 0 t nil 0 nil) (vscroll . 0) (dedicated) (point . 2945) (start . 863))) (vc (last . t) (pixel-width . 101) (pixel-height . 59) (total-width . 101) (total-height . 59) (normal-height . 1.0) (normal-width . 0.42436974789915993) (combination-limit) (leaf (pixel-width . 101) (pixel-height . 17) (total-width . 101) (total-height . 17) (normal-height . 0.2796610169491524) (normal-width . 1.0) (buffer "CR_BLC.rush" (selected) (hscroll . 0) (fringes 0 0 nil) (margins 4) (scroll-bars nil 0 t nil 0 nil) (vscroll . 0) (dedicated) (point . 311) (start . 66))) (leaf (last . t) (pixel-width . 101) (pixel-height . 42) (total-width . 101) (total-height . 42) (normal-height . 0.7203389830508469) (normal-width . 1.0) (buffer "parameters.rush" (selected . t) (hscroll . 0) (fringes 0 0 nil) (margins 4) (scroll-bars nil 0 t nil 0 nil) (vscroll . 0) (dedicated) (point . 1100) (start . 382))))))])
+(setq desktop-missing-file-warning nil)
+(setq tags-file-name nil)
+(setq tags-table-list nil)
+(setq search-ring nil)
+(setq regexp-search-ring nil)
+(setq register-alist nil)
+(setq file-name-history '("~/.emacs.d/" "/Volumes/NO NAME/settingUpBLUStation/parameters.rush" "/Volumes/NO NAME/settingUpBLUStation/CR_BLC.rush"))
+
+;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 208
+  "/Volumes/NO NAME/settingUpBLUStation/parameters.rush"
+  "parameters.rush"
+  'java-mode
+  '(abbrev-mode visual-line-mode linum-mode auto-complete-mode autopair-mode)
+  1100
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix) (truncate-lines))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/Volumes/NO NAME/settingUpBLUStation/CR_BLC.rush"
+  "CR_BLC.rush"
+  'java-mode
+  '(abbrev-mode visual-line-mode linum-mode auto-complete-mode autopair-mode)
+  311
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix) (truncate-lines))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/Volumes/NO NAME/settingUpBLUStation/tests.rush"
+  "tests.rush"
+  'java-mode
+  '(abbrev-mode visual-line-mode linum-mode auto-complete-mode autopair-mode)
+  2945
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix) (truncate-lines))
+  '((mark-ring nil)))
+

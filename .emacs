@@ -1,0 +1,127 @@
+;; Don't do tab
+(setq-default indent-tabs-mode nil)
+
+;; Include package repos
+(require 'package)
+(add-to-list 'package-archives
+             '("gnu" . "http://elpa.gnu.org/packages/")
+             '("marmalade" . "https://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
+(package-initialize)
+
+;; GUI stuff, remove line-break character and auto-wrap, highlight parens
+(menu-bar-mode -1)
+(setq column-number-mode t)
+(set-display-table-slot standard-display-table 'wrap ?\ )
+(global-visual-line-mode 1)
+(show-paren-mode 1)
+(global-linum-mode 1)
+(setq linum-format "%-4d")
+
+;; Prevent autosave in directory
+(setq auto-save-default nil)
+
+;; Save cursor location in standard emacs dir
+(require 'saveplace)
+(setq save-place-file (concat user-emacs-directory system-name "-saveplace.el"))
+(save-place-mode 1)
+
+;; Better cutting, delete highlighted regions, C-z undo, system clipboard
+(defun cut-line-or-region ()
+  (interactive)
+  (if current-prefix-arg
+      (progn
+        (kill-new (buffer-string))
+        (delete-region (point-min) (point-max)))
+    (progn (if (use-region-p)
+               (kill-region (region-beginning) (region-end) t)
+             (kill-region (line-beginning-position) (line-beginning-position 2))))))
+(global-set-key [(control w)] 'cut-line-or-region)
+(global-set-key [(control z)] 'undo)
+(delete-selection-mode 1)
+(require 'xclip)
+(xclip-mode 1)
+
+;; Sublime-style commenting
+(defun comment-or-uncomment-region-or-line ()
+  (interactive)
+  (let (beg end)
+    (if (region-active-p)
+        (setq beg (save-excursion
+                    (goto-char (region-beginning))
+                    (beginning-of-line)
+                    (point))
+              end (save-excursion
+                  (goto-char (region-end))
+                  (end-of-line)
+                  (point)))
+      (setq beg (line-beginning-position) end (line-end-position)))
+    (comment-or-uncomment-region beg end)
+    (forward-line)
+    ))
+(global-set-key (kbd "M-/") 'comment-or-uncomment-region-or-line)
+
+;; Better scroll
+(setq scroll-conservatively 100000)
+(setq scroll-margin 5)
+
+(unless window-system
+  ;; Better scroll w/ mouse & mouse selection
+  (require 'mouse)
+  (xterm-mouse-mode t)
+  ;; (defun track-mouse (e))
+  (global-set-key [mouse-4]   (lambda () (interactive) (scroll-down 1)))
+  (global-set-key [mouse-5]   (lambda () (interactive) (scroll-up   1)))
+  (global-set-key [C-mouse-4] (lambda () (interactive) (scroll-down 2)))
+  (global-set-key [C-mouse-5] (lambda () (interactive) (scroll-up   2)))
+  (global-set-key [S-mouse-4] (lambda () (interactive) (scroll-down 2)))
+  (global-set-key [S-mouse-5] (lambda () (interactive) (scroll-up   2)))
+  )
+
+;; Better search
+(defun my-goto-match-beginning ()
+  (when (and isearch-forward isearch-other-end)
+  (goto-char isearch-other-end)))
+(add-hook 'isearch-mode-end-hook 'my-goto-match-beginning)
+
+;; Delete white space when saving
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;; Auto Complete
+(require 'auto-complete)
+(ac-config-default)
+
+;; Autosurround
+(require 'autopair)
+(autopair-global-mode)
+
+;; C fix indents
+(setq c-default-style "k&r"
+      c-basic-offset 4)
+
+;; Syntax Highlighting
+(autoload 'cmake-font-lock-activate "cmake-font-lock" nil t)
+(add-hook 'cmake-mode-hook 'cmake-font-lock-activate)
+(add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode))
+(add-to-list 'auto-mode-alist '("\\.m\\'" . objc-mode))
+(add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
+(add-to-list 'auto-mode-alist '("\\.rush\\'" . java-mode))
+
+;;Auto Generated
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (multiple-cursors elpy python-mode auto-complete xclip autopair))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+

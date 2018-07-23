@@ -12,3 +12,8 @@ Copy over iTerm settings
 Setup script path
 Copy over Anlang's scripts
 + More in the futrue
+
+What it doesn't do yet:
+BetterTouchTool
+Alfred
+Context
