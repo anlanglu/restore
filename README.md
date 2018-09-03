@@ -15,5 +15,7 @@ Copy over Anlang's scripts
 
 What it doesn't do yet:
 BetterTouchTool
+    - License
+    - Need to figure out how to transfer preferences.
 Alfred
 Context
