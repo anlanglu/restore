@@ -1,0 +1,41 @@
+# mso4104b
+# export csv
+
+# command reference (programmer manual)
+# 077-0510-09
+# https://www.tek.com/oscilloscope/mso4000-dpo4000-manual/mdo4000c-mdo4000b-mdo4000-mso4000b-dpo4000b-and-mdo3000-0
+
+import socket_instr as s
+
+mso = s.SocketInstr('10.233.16.35', 4000)
+mso.write('*cls', status_check = False)
+r = mso.query('*idn?')
+print(r)
+
+r = mso.query('FILESystem:MOUNT:LIST?')
+print(r)
+
+mso.query('FILESystem:MOUNT:AVAILable?')
+#FILESystem:MOUNT:LIST?
+#FILESystem:MOUNT:DRIve
+
+#SAVe:WAVEform:FILEFormat {INTERNal|SPREADSheet}
+mso.write('FILESystem:MOUNT:DRIve ""')
+
+mso.write('FILESystem:UNMOUNT:DRIve "J:"')
+
+mso.write('FILESystem:MOUNT:DRIve "J:;tsc-x99-asus;temp"') # CIFS
+
+mso.query('FILESystem:MOUNT:DRIve? "J:"')
+
+mso.write('SAVe:WAVEform:FILEFormat SPREADSheet')
+
+mso.write('save:waveform CH1,"J:/mych1.csv"')
+mso.write('save:waveform ALL,"J:/all_test.csv"')
+#mso.write('save:waveform ALL,"J:/myfolder/all_test.csv"') # does not work
+mso.write('filesystem:mkdir "J:/myfolder"')
+mso.write('save:waveform ALL,"J:/myfolder/all_test.csv"')
+
+#large files need *opc sync
+mso.write('save:waveform ALL,"J:/myfolder/all_test_1M.csv"')
+mso.query('*opc?')

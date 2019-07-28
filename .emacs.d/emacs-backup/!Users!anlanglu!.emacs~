@@ -112,7 +112,6 @@
 (add-to-list 'auto-mode-alist '("\\.m\\'" . objc-mode))
 (add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
 (add-to-list 'auto-mode-alist '("\\.rush\\'" . java-mode))
-(add-to-list 'auto-mode-alist '("\\.va\\'" . verilog-mode))
 
 ;;Auto Generated
 (custom-set-variables

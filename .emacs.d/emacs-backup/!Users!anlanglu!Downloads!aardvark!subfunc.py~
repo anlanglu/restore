@@ -1,0 +1,182 @@
+from usbfunc import *
+from time import *
+##
+## API Layer
+##
+
+
+handle = 1
+
+def SelectDP835():
+	global handle, device, slave_address
+	BUS_TIMEOUT = 150  # ms
+	port = 0
+	handle = aa_open(port)
+	aa_configure(handle,  AA_CONFIG_SPI_I2C)
+	aa_i2c_pullup(handle, AA_I2C_PULLUP_BOTH)
+	bitrate = 100
+	slave_address = 0x10
+
+	bus_timeout = aa_i2c_bus_timeout(handle, BUS_TIMEOUT)
+	print "Bus lock timeout set to %d ms" % bus_timeout
+
+	bitrate = aa_i2c_bitrate(handle, bitrate)
+	print "Bitrate set to %d kHz" % bitrate
+
+	device = 0x08
+	addr = 0x0
+	length = 16
+	print addr, device, length
+
+def WriteDP855Reg(slave_addr, offset, val):
+    global handle
+    slave_addr = slave_addr >> 1
+    aa_i2c_write(handle, slave_addr, AA_I2C_NO_FLAGS, array('B', [(offset >> 8 ) & 0xff, offset & 0xff, val & 0xff]))
+
+def WriteDP855Reg_n(slave_addr, offset, data_array):
+    global handle
+    slave_addr = slave_addr >> 1
+    aa_i2c_write(handle, slave_addr, AA_I2C_NO_FLAGS, array('B', [(offset >> 8 ) & 0xff, offset & 0xff]) + (data_array))
+    #aa_i2c_write(handle, slave_addr, AA_I2C_NO_FLAGS, array('B', [(offset >> 8 ) & 0xff, offset & 0xff]))
+    #aa_i2c_write(handle, slave_addr, AA_I2C_NO_FLAGS, data_array)
+
+def WriteDP835Reg(slave_addr, page, offset, val):
+    global handle
+    slave_addr = slave_addr >> 1
+    aa_i2c_write(handle, slave_addr, AA_I2C_NO_FLAGS, array('B', [(page ) & 0xff, offset & 0xff, val & 0xff]))
+
+def ReadDP855Reg_n(slave_addr, offset, length):
+    global handle
+    slave_add = slave_addr >> 1
+    aa_i2c_write(handle, slave_add, AA_I2C_NO_FLAGS, array('B', [(offset >> 8 ) & 0xff, offset & 0xff]))
+    #length = 1
+    (count, data_in) = aa_i2c_read(handle, slave_add, AA_I2C_NO_FLAGS, length) # read data
+    return data_in
+
+def ReadDP835Reg(slave_addr, offset):
+    global handle
+    slave_add = slave_addr >> 1
+    aa_i2c_write(handle, slave_add, AA_I2C_NO_FLAGS, array('B', [(offset >> 8 ) & 0xff, offset & 0xff]))
+    length = 1
+    (count, data_in) = aa_i2c_read(handle, slave_add, AA_I2C_NO_FLAGS, length) # read data
+    return data_in[0]
+
+def KeyInt(comt=''):
+    k = raw_input('%s Hit any key to continue...'%comt)
+
+def WriteReg_otherslave(slave_address, offset, val, comment=''):
+    slave_addr = slave_address >> 1
+    aa_i2c_write(handle, slave_addr, AA_I2C_NO_FLAGS, array('B', [(offset ) & 0xff, val & 0xff]))
+
+def ReadReg_otherslave(slave_address, offset, comment=''):
+    slave_addr = slave_address >> 1
+    aa_i2c_write(handle, slave_addr, AA_I2C_NO_FLAGS, array('B', [ offset & 0xff ]))
+    length = 1
+    (count, data_in) = aa_i2c_read(handle, slave_addr, AA_I2C_NO_FLAGS, length) # read data
+    return data_in[0]
+
+def WriteReg(page, offset, val, comment=''):
+    slave_addr = slave_address >> 1
+    aa_i2c_write(handle, slave_addr, AA_I2C_NO_FLAGS, array('B', [(page ) & 0xff, offset & 0xff, val & 0xff]))
+
+def ReadReg(page, offset, comment=''):
+    slave_addr = slave_address >> 1
+    aa_i2c_write(handle, slave_addr, AA_I2C_NO_FLAGS, array('B', [(page ) & 0xff,  offset & 0xff ]))
+    length = 1
+    (count, data_in) = aa_i2c_read(handle, device, AA_I2C_NO_FLAGS, length) # read data
+    return data_in[0]
+
+def ReadReg_16(page, offset, comment=''):
+    slave_addr = slave_address >> 1
+    aa_i2c_write(handle, slave_addr, AA_I2C_NO_FLAGS, array('B', [(page ) & 0xff,  offset & 0xff ]))
+    length = 16
+    (count, data_in) = aa_i2c_read(handle, device, AA_I2C_NO_FLAGS, length) # read data
+    return data_in
+
+def ReadDP835Reg(slave_addr, page, offset):
+    slave_addr = slave_addr >> 1
+    aa_i2c_write(handle, slave_addr, AA_I2C_NO_FLAGS, array('B', [(page ) & 0xff,  offset & 0xff ]))
+    length = 1
+    (count, data_in) = aa_i2c_read(handle, slave_addr, AA_I2C_NO_FLAGS, length) # read data
+    return data_in[0]
+
+def ReadDP855Reg(slave_addr, offset):
+    slave_addr = slave_addr >> 1
+    aa_i2c_write(handle, slave_addr, AA_I2C_NO_FLAGS, array('B', [(offset >> 8) & 0xff,  offset & 0xff ]))
+    length = 1
+    (count, data_in) = aa_i2c_read(handle, device, AA_I2C_NO_FLAGS, length) # read data
+    return data_in[0]
+
+
+def Dump(page):		# by KY
+    iic_addr = slave_address
+    print "X/Y|",
+    for y in range(16):
+        print "%02X" % y,
+    print "\n",
+    print "====================================================",
+    for offset in range(256):
+        if offset & 15 == 0:
+            print "\n%02x |" %offset,
+        value = ReadReg(page, offset)
+        print "%02x" %value,
+    print "\n",
+    print "====================================================",
+    print "\n",
+
+def rd(page, offset):
+    return ReadReg(page, offset)
+
+def wr(page, offset, value):
+    WriteReg(page, offset, value)
+
+def wr_mask(page, offset, data, mask):
+	if (mask == None):
+		return wr(page, offset, data)
+	v = rd(page, offset)
+	v = v & (~mask)
+	v = v | data
+	return wr(page, offset, v)
+
+def rd_2byte(page, offset):
+	data0 = rd(page,offset)
+	data1 = rd(page,offset+1)
+	return data0 + (data1 << 8)
+
+def wr_2byte(page,offset,value):
+	data0 = value & 0xff
+	data1 = (value >> 8) & 0xff
+	wr(page,offset,data0)
+	wr(page,offset+1,data1)
+
+def rd_3byte(page,offset):
+	data0 = rd(page,offset)
+	data1 = rd(page,offset+1)
+	data2 = rd(page,offset+2)
+	return data0 + (data1 << 8) + (data2 << 16)
+
+def wr_3byte(page,offset,value):
+	data0 = value & 0xff
+	data1 = (value >> 8) & 0xff
+	data2 = (value >> 16) & 0xff
+	wr(page,offset,data0)
+	wr(page,offset+1,data1)
+	wr(page,offset+2,data2)
+
+def rd_4byte(page,offset):
+	data0 = rd(page,offset)
+	data1 = rd(page,offset+1)
+	data2 = rd(page,offset+2)
+	data3 = rd(page,offset+3)
+	return data0 + (data1 << 8) + (data2 << 16) + (data3 << 24)
+
+def wr_4byte(page,offset,value):
+	data0 = value & 0xff
+	data1 = (value >> 8) & 0xff
+	data2 = (value >> 16) & 0xff
+	data3 = (value >> 24) & 0xff
+
+	wr(page,offset,data0)
+	wr(page,offset+1,data1)
+	wr(page,offset+2,data2)
+	wr(page,offset+3,data3)

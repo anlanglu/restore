@@ -1,0 +1,40 @@
+# generic socket instrument
+
+import socket
+
+class SocketInstrErr(Exception):
+    '''base error class for SocketInstr class'''
+    pass
+
+class SocketInstr():
+    '''generic class for raw socket connections to test equipment'''
+    def __init__(self, host, port, timeout=10):
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.setblocking(0)
+        self.socket.settimeout(timeout)
+        self.socket.connect((host, port))
+
+    def disconnect(self):
+        '''closes connection'''
+        self.socket.shutdown(socket.SHUT_RDWR)
+        self.socket.close()
+
+    def query(self, cmd):
+        '''returns a reply as string'''
+        c = '{}\n'.format(cmd).encode('latin_1')
+        self.socket.send(c)
+        r = self.socket.recv(4096)
+        while (r[-1:] != b'\n'):
+            r += self.socket.recv(4096)
+        r = r.decode('latin_1').strip()
+        return r
+
+    def write(self, cmd, status_check = True):
+        '''write cmd with status check option'''
+        c = '{}\n'.format(cmd).encode('latin_1')
+        b = self.socket.send(c)
+        if status_check:
+            e = self.query('*esr?')
+            if int(e) != 0:
+                raise SocketInstrErr('event status register non-zero: {:s}'.format(e))
+        return b

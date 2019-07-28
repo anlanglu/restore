@@ -1,0 +1,10 @@
+// VerilogA for t325, luxe_logic_controller, veriloga
+
+`include "constants.vams"
+`include "disciplines.vams"
+
+module luxe_logic_controller;
+
+
+
+endmodule

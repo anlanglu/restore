@@ -1,0 +1,7 @@
+Host ecad
+     Hostname ees.ecs.apple.com
+     User anlang_lu
+
+Host seg
+     Hostname scv-anlanglu01.csg.apple.com
+     User anlang_lu
