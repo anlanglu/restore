@@ -23,6 +23,10 @@ mkdir remote_ecad
 mkdir remote_seg
 mkdir remote_vatican
 
+cat ~/.ssh/id_rsa.pub | ssh anlang_lu@ees.ecs.apple.com 'cat >> .ssh/authorized_keys'
+cat ~/.ssh/id_rsa.pub | ssh anlang_lu@scv-anlanglu01.csg.apple.com 'cat >> .ssh/authorized_keys'
+cat ~/.ssh/id_rsa.pub | ssh pi@17.190.189.213 'cat >> .ssh/authorized_keys'
+
 # moving files to correct places
 cp .emacs ~/
 cp -rf .emacs.d ~/
