@@ -5,17 +5,25 @@ cd "$(dirname "$0")"
 # ohmyzsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
-#homebrew
+# homebrew
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-#emacs
+# emacs
 brew cask install emacs
 
-#ssh key
+# sshfs
+brew cask install osxfuse
+brew install sshfs
+
+# ssh key
 ssh-keygen -t rsa
 
-#mkdir ~/.ConfigFiles/
+# setting up remote directories
+mkdir remote_ecad
+mkdir remote_seg
+mkdir remote_vatican
 
+# moving files to correct places
 cp .emacs ~/
 cp -rf .emacs.d ~/
 cp .zshrc ~/
