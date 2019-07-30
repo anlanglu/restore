@@ -19,12 +19,16 @@ brew install sshfs
 ssh-keygen -t rsa
 
 # setting up remote directories
-mkdir remote_ecad
-mkdir remote_seg
-mkdir remote_vatican
+mkdir ~/remote_ecad
+mkdir ~/remote_seg
+mkdir ~/remote_vatican
 
+# copying public keys to remote hosts
+echo "ees host"
 cat ~/.ssh/id_rsa.pub | ssh anlang_lu@ees.ecs.apple.com 'cat >> .ssh/authorized_keys'
+echo "seg host"
 cat ~/.ssh/id_rsa.pub | ssh anlang_lu@scv-anlanglu01.csg.apple.com 'cat >> .ssh/authorized_keys'
+echo "pi host"
 cat ~/.ssh/id_rsa.pub | ssh pi@17.190.189.213 'cat >> .ssh/authorized_keys'
 
 # moving files to correct places
