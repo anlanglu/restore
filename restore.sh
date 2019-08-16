@@ -10,6 +10,8 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 
 # emacs
 brew cask install emacs
+# set git default editor to emacs
+git config --global core.editor "emacs"
 
 # sshfs
 brew cask install osxfuse
