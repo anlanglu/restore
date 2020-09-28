@@ -18,7 +18,7 @@ brew cask install osxfuse
 brew install sshfs
 
 # ssh key
-ssh-keygen -t rsa
+[ -f ~/.ssh/id_rsa.pub ] || ssh-keygen -t rsa
 
 # setting up remote directories
 mkdir ~/remote_ecad
@@ -37,6 +37,7 @@ cat ~/.ssh/id_rsa.pub | ssh pi@17.190.189.213 'cat >> .ssh/authorized_keys'
 cp .emacs ~/
 cp -rf .emacs.d ~/
 cp .zshrc ~/
-cp .git* ~/
+cp .gitignore ~/
+cp .gitconfig ~/
 cp com.googlecode.iterm2.plist ~/Library/Preferences/
 cp config ~/.ssh/
