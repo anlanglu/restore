@@ -1,0 +1,6 @@
+[core]
+	editor = emacs
+	excludesFile = /Users/anlanglu/.gitignore
+[user]
+	name = Anlang Lu
+	email = anlang_lu@apple.com

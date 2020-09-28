@@ -37,5 +37,6 @@ cat ~/.ssh/id_rsa.pub | ssh pi@17.190.189.213 'cat >> .ssh/authorized_keys'
 cp .emacs ~/
 cp -rf .emacs.d ~/
 cp .zshrc ~/
+cp .git* ~/
 cp com.googlecode.iterm2.plist ~/Library/Preferences/
 cp config ~/.ssh/

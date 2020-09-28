@@ -1,0 +1,9 @@
+*.pyc
+.DS_Store
+__pyc*
+*.txt
+TAGS
+*.org
+dist/*
+build/*
+*.spec
